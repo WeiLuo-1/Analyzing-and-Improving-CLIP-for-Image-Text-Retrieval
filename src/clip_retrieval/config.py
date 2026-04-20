@@ -12,6 +12,7 @@ class ExperimentConfig:
     model_name: str = "openai/clip-vit-base-patch32"
     batch_size: int = 32
     image_root: str | None = None
+    prompt_type: str = "none"
     prompt_templates: list[str] = field(default_factory=list)
     rerank_strategy: str = "none"
     rerank_k: int = 25

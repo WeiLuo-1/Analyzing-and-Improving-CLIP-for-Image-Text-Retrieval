@@ -1,0 +1,131 @@
+{
+  "total_failures": 216,
+  "category_counts": {
+    "generic_human_activity": 131,
+    "multiple_objects": 90,
+    "fine_grained_attributes": 54,
+    "crowded_scene": 35
+  },
+  "top_categories": [
+    {
+      "tag": "generic_human_activity",
+      "count": 131,
+      "description": "Short person-centric captions with weak visual specificity, such as a person walking, standing, or waiting outside.",
+      "examples": [
+        {
+          "caption_index": 138,
+          "caption": "A man in green pants walking down the road .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "58",
+          "rank": 100,
+          "tags": [
+            "fine_grained_attributes",
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 139,
+          "caption": "A man in bright pants is pushing a cart .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "71",
+          "rank": 65,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects",
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 940,
+          "caption": "A large earth moving machine creating a track with a man watching it closely with what looks like surveying equipment .",
+          "ground_truth_image_id": "188",
+          "predicted_image_id": "96",
+          "rank": 56,
+          "tags": [
+            "multiple_objects",
+            "generic_human_activity"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "multiple_objects",
+      "count": 90,
+      "description": "Captions involving several entities or relationships, which makes one-to-one image matching harder.",
+      "examples": [
+        {
+          "caption_index": 943,
+          "caption": "A man in a hard hat is wearing a blue shirt and blue jean overalls .",
+          "ground_truth_image_id": "188",
+          "predicted_image_id": "137",
+          "rank": 146,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        },
+        {
+          "caption_index": 136,
+          "caption": "A man in green pants and blue shirt pushing a cart .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "113",
+          "rank": 95,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        },
+        {
+          "caption_index": 135,
+          "caption": "A man stands on one foot while holding on to a waste basket .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "142",
+          "rank": 90,
+          "tags": [
+            "multiple_objects"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "fine_grained_attributes",
+      "count": 54,
+      "description": "Captions that depend on subtle attributes such as clothing, colors, pose, or small object details.",
+      "examples": [
+        {
+          "caption_index": 943,
+          "caption": "A man in a hard hat is wearing a blue shirt and blue jean overalls .",
+          "ground_truth_image_id": "188",
+          "predicted_image_id": "137",
+          "rank": 146,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        },
+        {
+          "caption_index": 138,
+          "caption": "A man in green pants walking down the road .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "58",
+          "rank": 100,
+          "tags": [
+            "fine_grained_attributes",
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 136,
+          "caption": "A man in green pants and blue shirt pushing a cart .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "113",
+          "rank": 95,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        }
+      ]
+    }
+  ]
+}

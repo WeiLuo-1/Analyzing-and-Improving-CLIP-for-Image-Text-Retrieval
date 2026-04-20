@@ -14,6 +14,14 @@ FAILURE_CATEGORY_DESCRIPTIONS = {
     "unusual_scene": "Captions describing uncommon, stylized, or visually atypical scenes.",
 }
 
+PROMPT_STRATEGIES = {
+    "none": [],
+    "photo": ["a photo of {}"],
+    "image": ["an image of {}"],
+    "photo_image": ["a photo of {}", "an image of {}"],
+    "detailed_scene": ["a photo of a scene where {}", "an image showing {}"],
+}
+
 PERSON_TERMS = {
     "man",
     "woman",
@@ -95,6 +103,15 @@ RELATION_TERMS = {
 }
 
 
+def get_prompt_templates(prompt_type: str, extra_templates: list[str] | None = None) -> list[str]:
+    if prompt_type not in PROMPT_STRATEGIES:
+        raise ValueError(f"Unsupported prompt strategy '{prompt_type}'.")
+    templates = list(PROMPT_STRATEGIES[prompt_type])
+    if extra_templates:
+        templates.extend(extra_templates)
+    return templates
+
+
 def apply_prompt_templates(captions: list[str], templates: list[str]) -> list[str]:
     if not templates:
         return captions
@@ -122,11 +139,17 @@ def rerank_similarity(
 ) -> np.ndarray:
     if strategy == "none":
         return similarity
-    if strategy != "topk_consensus":
+    if strategy not in {"topk_consensus", "caption_prior"}:
         raise ValueError(f"Unsupported rerank strategy '{strategy}'.")
 
     reranked = similarity.copy()
     caption_consensus = _caption_consensus(image_to_caption_sets, similarity.shape[1])
+    if strategy == "caption_prior":
+        for image_idx in range(similarity.shape[0]):
+            ranked_caption_indices = np.argsort(-similarity[image_idx])[:top_k]
+            reranked[image_idx, ranked_caption_indices] += 0.03 * caption_consensus[ranked_caption_indices]
+        return reranked
+
     image_consensus = np.asarray([caption_consensus[caption_indices].mean() for caption_indices in image_to_caption_sets])
 
     for image_idx in range(similarity.shape[0]):

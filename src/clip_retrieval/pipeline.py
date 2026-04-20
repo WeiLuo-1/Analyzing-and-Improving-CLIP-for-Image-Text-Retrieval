@@ -9,7 +9,12 @@ import numpy as np
 from clip_retrieval.analysis import export_failure_cases, export_failure_summary
 from clip_retrieval.config import ExperimentConfig
 from clip_retrieval.data import RetrievalExample, load_examples, validate_examples
-from clip_retrieval.experiments import aggregate_prompt_embeddings, apply_prompt_templates, rerank_similarity
+from clip_retrieval.experiments import (
+    aggregate_prompt_embeddings,
+    apply_prompt_templates,
+    get_prompt_templates,
+    rerank_similarity,
+)
 from clip_retrieval.metrics import compute_retrieval_metrics
 from clip_retrieval.modeling import ClipRetriever
 
@@ -24,8 +29,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--model-name", default="openai/clip-vit-base-patch32")
     parser.add_argument("--batch-size", type=int, default=32)
     parser.add_argument("--device", default="cuda")
+    parser.add_argument(
+        "--prompt-type",
+        default="none",
+        choices=["none", "photo", "image", "photo_image", "detailed_scene"],
+    )
     parser.add_argument("--prompt-template", action="append", default=[])
-    parser.add_argument("--rerank", default="none", choices=["none", "topk_consensus"])
+    parser.add_argument("--rerank", default="none", choices=["none", "topk_consensus", "caption_prior"])
     parser.add_argument("--rerank-k", type=int, default=25)
     parser.add_argument("--max-examples", type=int, default=None)
     return parser
@@ -64,14 +74,15 @@ def run_experiment(config: ExperimentConfig) -> dict:
     print(f"Loaded {len(examples)} examples")
 
     image_ids, image_paths, captions, caption_to_image, image_to_caption_sets = flatten_examples(examples)
-    prompted_captions = apply_prompt_templates(captions, config.prompt_templates)
+    prompt_templates = get_prompt_templates(config.prompt_type, config.prompt_templates)
+    prompted_captions = apply_prompt_templates(captions, prompt_templates)
     print(f"Prepared {len(image_paths)} images and {len(captions)} captions")
 
     retriever = ClipRetriever(model_name=config.model_name, device=config.device)
     image_embeddings = retriever.encode_images(image_paths, batch_size=config.batch_size)
     text_embeddings = retriever.encode_texts(prompted_captions, batch_size=config.batch_size)
 
-    num_templates = max(1, len(config.prompt_templates))
+    num_templates = max(1, len(prompt_templates))
     text_embeddings = aggregate_prompt_embeddings(text_embeddings, num_templates=num_templates)
 
     similarity = image_embeddings @ text_embeddings.T
@@ -117,6 +128,7 @@ def main() -> None:
         model_name=args.model_name,
         batch_size=args.batch_size,
         image_root=args.image_root,
+        prompt_type=args.prompt_type,
         prompt_templates=args.prompt_template,
         rerank_strategy=args.rerank,
         rerank_k=args.rerank_k,

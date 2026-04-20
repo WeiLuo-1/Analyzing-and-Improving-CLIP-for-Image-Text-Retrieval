@@ -1,0 +1,15 @@
+{
+  "dataset": "flickr30k_hf",
+  "data_path": null,
+  "split": "test",
+  "model_name": "openai/clip-vit-base-patch32",
+  "batch_size": 32,
+  "image_root": null,
+  "prompt_type": "detailed_scene",
+  "prompt_templates": [],
+  "rerank_strategy": "none",
+  "rerank_k": 25,
+  "output_dir": "outputs\\prompt_detailed",
+  "device": "cpu",
+  "max_examples": 200
+}
