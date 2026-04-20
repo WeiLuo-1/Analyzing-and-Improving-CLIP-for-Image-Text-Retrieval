@@ -71,6 +71,8 @@ Each run writes a directory under `outputs/<experiment-name>/` with:
 
 - `metrics.json`: Recall metrics
 - `failure_cases.jsonl`: hard examples with heuristic tags
+- `failure_summary.json`: category counts and representative examples
+- `failure_summary.md`: readable summary of major failure categories
 - `config.json`: run configuration
 
 ## Quick Sanity Check

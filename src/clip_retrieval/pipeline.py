@@ -6,7 +6,7 @@ from pathlib import Path
 
 import numpy as np
 
-from clip_retrieval.analysis import export_failure_cases
+from clip_retrieval.analysis import export_failure_cases, export_failure_summary
 from clip_retrieval.config import ExperimentConfig
 from clip_retrieval.data import RetrievalExample, load_examples, validate_examples
 from clip_retrieval.experiments import aggregate_prompt_embeddings, apply_prompt_templates, rerank_similarity
@@ -89,19 +89,21 @@ def run_experiment(config: ExperimentConfig) -> dict:
     with (output_dir / "config.json").open("w", encoding="utf-8") as handle:
         json.dump(config.to_dict(), handle, indent=2)
 
-    export_failure_cases(
+    ranked_failures = export_failure_cases(
         output_path=output_dir / "failure_cases.jsonl",
         similarity=similarity,
         image_ids=image_ids,
         captions=captions,
         caption_to_image=caption_to_image,
     )
+    export_failure_summary(output_dir=output_dir, ranked_rows=ranked_failures)
 
     return {
         "metrics": metrics.to_dict(),
         "num_images": len(image_ids),
         "num_captions": len(captions),
         "output_dir": str(output_dir),
+        "num_failures": len(ranked_failures),
     }
 
 

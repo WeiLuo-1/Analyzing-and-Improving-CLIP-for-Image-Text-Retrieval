@@ -5,6 +5,96 @@ import re
 import numpy as np
 
 
+FAILURE_CATEGORY_DESCRIPTIONS = {
+    "crowded_scene": "Captions describing crowds, groups, or busy public scenes where many similar people/objects compete for attention.",
+    "fine_grained_attributes": "Captions that depend on subtle attributes such as clothing, colors, pose, or small object details.",
+    "multiple_objects": "Captions involving several entities or relationships, which makes one-to-one image matching harder.",
+    "generic_human_activity": "Short person-centric captions with weak visual specificity, such as a person walking, standing, or waiting outside.",
+    "ambiguous_query": "Captions containing words with multiple meanings or underspecified object references.",
+    "unusual_scene": "Captions describing uncommon, stylized, or visually atypical scenes.",
+}
+
+PERSON_TERMS = {
+    "man",
+    "woman",
+    "person",
+    "people",
+    "boy",
+    "girl",
+    "child",
+    "children",
+    "guy",
+    "lady",
+    "worker",
+    "crowd",
+    "group",
+}
+GROUP_TERMS = {
+    "crowd",
+    "crowds",
+    "group",
+    "groups",
+    "people",
+    "several",
+    "many",
+    "audience",
+    "gathered",
+    "metro",
+    "station",
+}
+COLOR_TERMS = {
+    "black",
+    "white",
+    "blue",
+    "green",
+    "red",
+    "yellow",
+    "orange",
+    "purple",
+    "gray",
+    "grey",
+    "brown",
+    "tan",
+    "bright",
+    "blond",
+}
+CLOTHING_TERMS = {
+    "shirt",
+    "pants",
+    "jacket",
+    "hat",
+    "cap",
+    "overalls",
+    "boots",
+    "dress",
+    "coat",
+    "uniform",
+    "helmet",
+    "hard",
+    "scarf",
+}
+GENERIC_ACTIVITY_TERMS = {
+    "walking",
+    "standing",
+    "looking",
+    "watching",
+    "waiting",
+    "moving",
+    "posing",
+    "talking",
+}
+RELATION_TERMS = {
+    "holding",
+    "pushing",
+    "carrying",
+    "watching",
+    "driving",
+    "next",
+    "while",
+    "together",
+}
+
+
 def apply_prompt_templates(captions: list[str], templates: list[str]) -> list[str]:
     if not templates:
         return captions
@@ -76,12 +166,21 @@ def heuristic_failure_tags(caption: str) -> list[str]:
     lowered = caption.lower()
     tokens = set(re.findall(r"[a-z]+", lowered))
     tags: list[str] = []
+    person_count = sum(1 for token in tokens if token in PERSON_TERMS)
+
     if tokens & AMBIGUOUS_TERMS:
         tags.append("ambiguous_query")
-    if " and " in lowered or lowered.count(",") >= 2:
-        tags.append("multiple_objects")
     if tokens & UNUSUAL_SCENE_TERMS:
         tags.append("unusual_scene")
+    if tokens & GROUP_TERMS or ("crowd" in lowered) or ("group" in lowered):
+        tags.append("crowded_scene")
+    if (tokens & COLOR_TERMS and tokens & CLOTHING_TERMS) or len(tokens & COLOR_TERMS) >= 2:
+        tags.append("fine_grained_attributes")
+    if " and " in lowered or lowered.count(",") >= 2 or person_count >= 2 or tokens & RELATION_TERMS:
+        tags.append("multiple_objects")
+    if tokens & PERSON_TERMS and (tokens & GENERIC_ACTIVITY_TERMS or len(tokens) <= 8):
+        tags.append("generic_human_activity")
     if not tags:
-        tags.append("other")
-    return tags
+        tags.append("fine_grained_attributes" if tokens & COLOR_TERMS else "generic_human_activity")
+    # Keep order stable while deduplicating.
+    return list(dict.fromkeys(tags))
