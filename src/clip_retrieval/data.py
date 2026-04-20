@@ -42,7 +42,7 @@ def load_local_jsonl(data_path: str, image_root: str | None = None) -> list[Retr
     return examples
 
 
-def load_hf_flickr30k(split: str = "test") -> list[RetrievalExample]:
+def load_hf_flickr30k(split: str = "test", max_examples: int | None = None) -> list[RetrievalExample]:
     try:
         from datasets import load_dataset
     except ImportError as exc:
@@ -53,6 +53,8 @@ def load_hf_flickr30k(split: str = "test") -> list[RetrievalExample]:
     dataset = load_dataset("lmms-lab/flickr30k", split=split)
     examples: list[RetrievalExample] = []
     for idx, row in enumerate(dataset):
+        if max_examples is not None and idx >= max_examples:
+            break
         image = row["image"]
         image_id = str(row.get("img_id", idx))
         image_path = _persist_hf_image(image, Path("data/.cache/flickr30k"), f"{split}_{image_id}_{idx:06d}.jpg")
@@ -69,13 +71,20 @@ def _persist_hf_image(image: Image.Image, cache_dir: Path, file_name: str) -> st
     return str(path)
 
 
-def load_examples(dataset: str, data_path: str | None, split: str, image_root: str | None = None) -> list[RetrievalExample]:
+def load_examples(
+    dataset: str,
+    data_path: str | None,
+    split: str,
+    image_root: str | None = None,
+    max_examples: int | None = None,
+) -> list[RetrievalExample]:
     if dataset == "local_jsonl":
         if data_path is None:
             raise ValueError("--data-path is required when dataset=local_jsonl")
-        return load_local_jsonl(data_path, image_root=image_root)
+        examples = load_local_jsonl(data_path, image_root=image_root)
+        return examples if max_examples is None else examples[:max_examples]
     if dataset == "flickr30k_hf":
-        return load_hf_flickr30k(split=split)
+        return load_hf_flickr30k(split=split, max_examples=max_examples)
     raise ValueError(f"Unsupported dataset '{dataset}'.")
 
 

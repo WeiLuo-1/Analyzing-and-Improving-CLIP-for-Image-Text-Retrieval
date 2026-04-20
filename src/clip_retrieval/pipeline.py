@@ -27,6 +27,7 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--prompt-template", action="append", default=[])
     parser.add_argument("--rerank", default="none", choices=["none", "topk_consensus"])
     parser.add_argument("--rerank-k", type=int, default=25)
+    parser.add_argument("--max-examples", type=int, default=None)
     return parser
 
 
@@ -51,11 +52,20 @@ def flatten_examples(examples: list[RetrievalExample]) -> tuple[list[str], list[
 
 def run_experiment(config: ExperimentConfig) -> dict:
     output_dir = config.ensure_output_dir()
-    examples = load_examples(config.dataset, config.data_path, config.split, image_root=config.image_root)
+    print(f"Loading dataset '{config.dataset}' split '{config.split}'")
+    examples = load_examples(
+        config.dataset,
+        config.data_path,
+        config.split,
+        image_root=config.image_root,
+        max_examples=config.max_examples,
+    )
     validate_examples(examples)
+    print(f"Loaded {len(examples)} examples")
 
     image_ids, image_paths, captions, caption_to_image, image_to_caption_sets = flatten_examples(examples)
     prompted_captions = apply_prompt_templates(captions, config.prompt_templates)
+    print(f"Prepared {len(image_paths)} images and {len(captions)} captions")
 
     retriever = ClipRetriever(model_name=config.model_name, device=config.device)
     image_embeddings = retriever.encode_images(image_paths, batch_size=config.batch_size)
@@ -65,6 +75,7 @@ def run_experiment(config: ExperimentConfig) -> dict:
     text_embeddings = aggregate_prompt_embeddings(text_embeddings, num_templates=num_templates)
 
     similarity = image_embeddings @ text_embeddings.T
+    print("Computed similarity matrix")
     similarity = rerank_similarity(
         similarity=similarity,
         image_to_caption_sets=image_to_caption_sets,
@@ -109,6 +120,7 @@ def main() -> None:
         rerank_k=args.rerank_k,
         output_dir=output_dir,
         device=args.device,
+        max_examples=args.max_examples,
     )
     result = run_experiment(config)
     print(json.dumps(result, indent=2))

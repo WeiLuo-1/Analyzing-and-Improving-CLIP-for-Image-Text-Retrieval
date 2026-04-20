@@ -73,6 +73,19 @@ Each run writes a directory under `outputs/<experiment-name>/` with:
 - `failure_cases.jsonl`: hard examples with heuristic tags
 - `config.json`: run configuration
 
+## Quick Sanity Check
+
+Before a full run, try a small subset first:
+
+```bash
+python run_experiment.py ^
+  --dataset flickr30k_hf ^
+  --split test ^
+  --experiment-name smoke_test ^
+  --max-examples 50 ^
+  --device cpu
+```
+
 ## Suggested Project Workflow
 
 1. Start with a small split of Flickr30k to verify the pipeline.

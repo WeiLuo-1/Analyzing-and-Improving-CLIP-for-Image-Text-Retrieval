@@ -17,6 +17,7 @@ class ExperimentConfig:
     rerank_k: int = 25
     output_dir: str = "outputs/default_run"
     device: str = "cuda"
+    max_examples: int | None = None
 
     def to_dict(self) -> dict:
         return asdict(self)
