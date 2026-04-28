@@ -1,0 +1,132 @@
+{
+  "total_failures": 4962,
+  "category_counts": {
+    "generic_human_activity": 2899,
+    "multiple_objects": 1918,
+    "fine_grained_attributes": 1067,
+    "crowded_scene": 845,
+    "unusual_scene": 40,
+    "ambiguous_query": 24
+  },
+  "top_categories": [
+    {
+      "tag": "generic_human_activity",
+      "count": 2899,
+      "description": "Short person-centric captions with weak visual specificity, such as a person walking, standing, or waiting outside.",
+      "examples": [
+        {
+          "caption_index": 3134,
+          "caption": "A person looking at the reflection of the moon .",
+          "ground_truth_image_id": "626",
+          "predicted_image_id": "731",
+          "rank": 1561,
+          "tags": [
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 4789,
+          "caption": "A man in a feather hat looking down .",
+          "ground_truth_image_id": "957",
+          "predicted_image_id": "638",
+          "rank": 1458,
+          "tags": [
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 1094,
+          "caption": "A group of students during spring brake .",
+          "ground_truth_image_id": "218",
+          "predicted_image_id": "227",
+          "rank": 1242,
+          "tags": [
+            "ambiguous_query",
+            "crowded_scene",
+            "generic_human_activity"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "multiple_objects",
+      "count": 1918,
+      "description": "Captions involving several entities or relationships, which makes one-to-one image matching harder.",
+      "examples": [
+        {
+          "caption_index": 943,
+          "caption": "A man in a hard hat is wearing a blue shirt and blue jean overalls .",
+          "ground_truth_image_id": "188",
+          "predicted_image_id": "1024",
+          "rank": 1444,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        },
+        {
+          "caption_index": 1554,
+          "caption": "a crowd of people outside .",
+          "ground_truth_image_id": "310",
+          "predicted_image_id": "508",
+          "rank": 1227,
+          "tags": [
+            "crowded_scene",
+            "multiple_objects",
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 136,
+          "caption": "A man in green pants and blue shirt pushing a cart .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "1267",
+          "rank": 993,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "fine_grained_attributes",
+      "count": 1067,
+      "description": "Captions that depend on subtle attributes such as clothing, colors, pose, or small object details.",
+      "examples": [
+        {
+          "caption_index": 943,
+          "caption": "A man in a hard hat is wearing a blue shirt and blue jean overalls .",
+          "ground_truth_image_id": "188",
+          "predicted_image_id": "1024",
+          "rank": 1444,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        },
+        {
+          "caption_index": 9181,
+          "caption": "Two men in black shirts each standing on one arm .",
+          "ground_truth_image_id": "1836",
+          "predicted_image_id": "1048",
+          "rank": 1265,
+          "tags": [
+            "fine_grained_attributes"
+          ]
+        },
+        {
+          "caption_index": 136,
+          "caption": "A man in green pants and blue shirt pushing a cart .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "1267",
+          "rank": 993,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        }
+      ]
+    }
+  ]
+}

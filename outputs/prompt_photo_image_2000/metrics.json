@@ -1,0 +1,8 @@
+{
+  "image_to_text_r1": 0.745,
+  "image_to_text_r5": 0.9245,
+  "image_to_text_r10": 0.9655,
+  "text_to_image_r1": 0.5038,
+  "text_to_image_r5": 0.7682,
+  "text_to_image_r10": 0.8487
+}

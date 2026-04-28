@@ -1,0 +1,11 @@
+experiment_name,display_name,dataset,split,max_examples,prompt_type,prompt_templates,rerank_strategy,rerank_k,device,image_to_text_r1,image_to_text_r5,image_to_text_r10,text_to_image_r1,text_to_image_r5,text_to_image_r10,total_failures,generic_human_activity,multiple_objects,fine_grained_attributes,crowded_scene,ambiguous_query,unusual_scene
+baseline,Baseline,flickr30k_hf,test,200,none,,none,25,cpu,0.93,0.98,0.995,0.791,0.948,0.976,209,126,92,50,36,0,0
+flickr30k_baseline_200,Baseline (200),flickr30k_hf,test,200,none,,none,25,cpu,0.93,0.98,0.995,0.791,0.948,0.976,50,30,30,11,8,0,0
+baseline_2000,Baseline (2000),flickr30k_hf,test,2000,none,,none,25,cpu,0.7255,0.9225,0.9635,0.5015,0.7694,0.849,4985,2895,1941,1079,856,26,42
+prompt_photo_image,Photo+Image Prompt,flickr30k_hf,test,200,photo_image,,none,25,cpu,0.92,0.985,0.995,0.784,0.95,0.978,216,131,90,54,35,0,0
+prompt_photo_image_2000,Photo+Image Prompt (2000),flickr30k_hf,test,2000,photo_image,,none,25,cpu,0.745,0.9245,0.9655,0.5038,0.7682,0.8487,4962,2899,1918,1067,845,24,40
+prompt_detailed,Detailed Prompt,flickr30k_hf,test,200,detailed_scene,,none,25,cpu,0.925,0.975,0.995,0.777,0.953,0.977,223,139,88,51,35,1,1
+prompt_detailed_2000,Detailed Prompt (2000),flickr30k_hf,test,2000,detailed_scene,,none,25,cpu,0.7335,0.9275,0.963,0.4889,0.7591,0.841,5111,2977,1979,1114,860,25,38
+rerank_caption_prior,Rerank,flickr30k_hf,test,200,none,,caption_prior,25,cpu,0.93,0.98,0.995,0.791,0.952,0.98,209,126,93,50,37,0,1
+rerank_caption_prior_2000,Rerank (2000),flickr30k_hf,test,2000,none,,caption_prior,25,cpu,0.7255,0.9225,0.9635,0.5106,0.7841,0.8616,4894,2855,1900,1052,835,24,41
+smoke_test,Smoke Test,flickr30k_hf,test,50,none,,none,25,cpu,0.94,0.98,1.0,0.888,0.976,0.984,,0,0,0,0,0,0

@@ -1,0 +1,130 @@
+{
+  "total_failures": 4985,
+  "category_counts": {
+    "generic_human_activity": 2895,
+    "multiple_objects": 1941,
+    "fine_grained_attributes": 1079,
+    "crowded_scene": 856,
+    "unusual_scene": 42,
+    "ambiguous_query": 26
+  },
+  "top_categories": [
+    {
+      "tag": "generic_human_activity",
+      "count": 2895,
+      "description": "Short person-centric captions with weak visual specificity, such as a person walking, standing, or waiting outside.",
+      "examples": [
+        {
+          "caption_index": 3134,
+          "caption": "A person looking at the reflection of the moon .",
+          "ground_truth_image_id": "626",
+          "predicted_image_id": "731",
+          "rank": 1498,
+          "tags": [
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 4789,
+          "caption": "A man in a feather hat looking down .",
+          "ground_truth_image_id": "957",
+          "predicted_image_id": "638",
+          "rank": 1369,
+          "tags": [
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 1554,
+          "caption": "a crowd of people outside .",
+          "ground_truth_image_id": "310",
+          "predicted_image_id": "1263",
+          "rank": 1236,
+          "tags": [
+            "crowded_scene",
+            "multiple_objects",
+            "generic_human_activity"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "multiple_objects",
+      "count": 1941,
+      "description": "Captions involving several entities or relationships, which makes one-to-one image matching harder.",
+      "examples": [
+        {
+          "caption_index": 943,
+          "caption": "A man in a hard hat is wearing a blue shirt and blue jean overalls .",
+          "ground_truth_image_id": "188",
+          "predicted_image_id": "1024",
+          "rank": 1503,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        },
+        {
+          "caption_index": 1554,
+          "caption": "a crowd of people outside .",
+          "ground_truth_image_id": "310",
+          "predicted_image_id": "1263",
+          "rank": 1236,
+          "tags": [
+            "crowded_scene",
+            "multiple_objects",
+            "generic_human_activity"
+          ]
+        },
+        {
+          "caption_index": 135,
+          "caption": "A man stands on one foot while holding on to a waste basket .",
+          "ground_truth_image_id": "27",
+          "predicted_image_id": "142",
+          "rank": 1096,
+          "tags": [
+            "multiple_objects"
+          ]
+        }
+      ]
+    },
+    {
+      "tag": "fine_grained_attributes",
+      "count": 1079,
+      "description": "Captions that depend on subtle attributes such as clothing, colors, pose, or small object details.",
+      "examples": [
+        {
+          "caption_index": 943,
+          "caption": "A man in a hard hat is wearing a blue shirt and blue jean overalls .",
+          "ground_truth_image_id": "188",
+          "predicted_image_id": "1024",
+          "rank": 1503,
+          "tags": [
+            "fine_grained_attributes",
+            "multiple_objects"
+          ]
+        },
+        {
+          "caption_index": 9181,
+          "caption": "Two men in black shirts each standing on one arm .",
+          "ground_truth_image_id": "1836",
+          "predicted_image_id": "1048",
+          "rank": 1393,
+          "tags": [
+            "fine_grained_attributes"
+          ]
+        },
+        {
+          "caption_index": 4043,
+          "caption": "A lady in a brown jacket trying to grab something .",
+          "ground_truth_image_id": "808",
+          "predicted_image_id": "871",
+          "rank": 1001,
+          "tags": [
+            "fine_grained_attributes"
+          ]
+        }
+      ]
+    }
+  ]
+}

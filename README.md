@@ -65,6 +65,22 @@ python run_experiment.py ^
   --rerank-k 25
 ```
 
+## Run The Final Experiment Suite
+
+Use the bundled PowerShell helper to rerun the main project methods with a consistent protocol:
+
+```powershell
+.\run_final_experiments.ps1 -Device cpu -MaxExamples 200 -ExperimentSuffix 200
+```
+
+For a larger formal subset without overwriting earlier runs:
+
+```powershell
+.\run_final_experiments.ps1 -Device cpu -MaxExamples 2000 -ExperimentSuffix 2000
+```
+
+Drop `-MaxExamples` to run the full test split once the environment is ready for the final run.
+
 ## Outputs
 
 Each run writes a directory under `outputs/<experiment-name>/` with:
@@ -74,6 +90,22 @@ Each run writes a directory under `outputs/<experiment-name>/` with:
 - `failure_summary.json`: category counts and representative examples
 - `failure_summary.md`: readable summary of major failure categories
 - `config.json`: run configuration
+
+## Generate Final Tables And Figures
+
+After running one or more experiments, build report-ready summaries with:
+
+```bash
+python plot_results.py
+```
+
+This writes:
+
+- `outputs/final_tables/results_summary.csv`
+- `outputs/final_tables/results_summary.md`
+- `outputs/final_figures/image_to_text_recall.png`
+- `outputs/final_figures/text_to_image_recall.png`
+- `outputs/final_figures/failure_category_counts.png`
 
 ## Quick Sanity Check
 
